@@ -24,10 +24,10 @@ async function handler(req, res) {
 
     let client;
 
+    const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.qlklvkd.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`;
+
     try {
-      client = await MongoClient.connect(
-        "mongodb+srv://taraskin:bRt4Zlx1ydkkdqVK@cluster0.qlklvkd.mongodb.net/my-blog?retryWrites=true&w=majority"
-      );
+      client = await MongoClient.connect(connectionString);
     } catch (error) {
       res.status(500).json({ message: "Could not connect to database" });
       return;
@@ -44,8 +44,8 @@ async function handler(req, res) {
       return;
     }
 
-     client.close();
-     console.log(newMessage);
+    client.close();
+    console.log(newMessage);
     res
       .status(201)
       .json({ message: "Successfully stored message", message: newMessage });
